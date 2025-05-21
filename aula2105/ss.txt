@@ -1,0 +1,317 @@
+Microsoft Windows [versão 10.0.19043.1620]
+(c) Microsoft Corporation. Todos os direitos reservados.
+
+C:\Users\LAB4>cd C:\xampp\mysql\bin
+
+C:\xampp\mysql\bin>mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 56
+Server version: 10.4.22-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| etecmcm2           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [(none)]> use etecmcm2
+Database changed
+MariaDB [etecmcm2]> show tables;
++--------------------+
+| Tables_in_etecmcm2 |
++--------------------+
+| categoria          |
+| categorias         |
+| produtos           |
++--------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [etecmcm2]> describe produtos
+    -> ;
++---------------------------+---------------+------+-----+---------+----------------+
+| Field                     | Type          | Null | Key | Default | Extra          |
++---------------------------+---------------+------+-----+---------+----------------+
+| id_prod                   | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome                      | varchar(255)  | YES  |     | NULL    |                |
+| preco                     | decimal(10,2) | YES  |     | NULL    |                |
+| marca                     | varchar(255)  | YES  |     | NULL    |                |
+| qtde                      | int(11)       | YES  |     | NULL    |                |
+| fk_categoria_id_categoria | int(11)       | YES  | MUL | NULL    |                |
++---------------------------+---------------+------+-----+---------+----------------+
+6 rows in set (0.021 sec)
+
+MariaDB [etecmcm2]>
+MariaDB [etecmcm2]>
+MariaDB [etecmcm2]> alter table produtos add unidade_medida varchar(10);
+Query OK, 0 rows affected (0.021 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [etecmcm2]> select * from produtos
+    -> ;
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+| id_prod | nome            | preco  | marca   | qtde | fk_categoria_id_categoria | unidade_medida |
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+|       1 | Detergente      |   3.50 | limpol  |   50 |                      NULL | NULL           |
+|       2 | Detergente      |   3.50 | limpol  |   50 |                         1 | NULL           |
+|       3 | sabao em po     |  13.50 | omo     |   50 |                         1 | NULL           |
+|       4 | Picanha         | 100.50 | Freboi  |   50 |                         2 | NULL           |
+|       5 | Peito de frango | 100.50 | Seara   |   50 |                         2 | NULL           |
+|       6 | Banana          |  13.50 | Agranor |   50 |                         3 | NULL           |
+|       7 | Maça            |  10.50 | Arcanjo |   50 |                         3 | NULL           |
+|       8 | Milho           |   5.50 | quero   |   50 |                         4 | NULL           |
+|       9 | Ervilha         |   6.50 | knorr   |   50 |                         4 | NULL           |
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+9 rows in set (0.001 sec)
+
+MariaDB [etecmcm2]> update produtos set unidade_medida = "un" where id_categoria = 1 or 3;
+ERROR 1054 (42S22): Unknown column 'id_categoria' in 'where clause'
+MariaDB [etecmcm2]> update produtos set unidade_medida = "un" where  fk_categoria_id_categoria = 1 or 3;
+Query OK, 9 rows affected (0.011 sec)
+Rows matched: 9  Changed: 9  Warnings: 0
+
+MariaDB [etecmcm2]> select * from produtos
+    -> ;
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+| id_prod | nome            | preco  | marca   | qtde | fk_categoria_id_categoria | unidade_medida |
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+|       1 | Detergente      |   3.50 | limpol  |   50 |                      NULL | un             |
+|       2 | Detergente      |   3.50 | limpol  |   50 |                         1 | un             |
+|       3 | sabao em po     |  13.50 | omo     |   50 |                         1 | un             |
+|       4 | Picanha         | 100.50 | Freboi  |   50 |                         2 | un             |
+|       5 | Peito de frango | 100.50 | Seara   |   50 |                         2 | un             |
+|       6 | Banana          |  13.50 | Agranor |   50 |                         3 | un             |
+|       7 | Maça            |  10.50 | Arcanjo |   50 |                         3 | un             |
+|       8 | Milho           |   5.50 | quero   |   50 |                         4 | un             |
+|       9 | Ervilha         |   6.50 | knorr   |   50 |                         4 | un             |
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+9 rows in set (0.001 sec)
+
+MariaDB [etecmcm2]> select * from categoria
+    -> ;
++-------------+--------------+
+| nome_cat    | id_categoria |
++-------------+--------------+
+| Limpeza     |            1 |
+| Açogue      |            2 |
+| Hortifruti  |            3 |
+| Enlatados   |            4 |
+| Higiene     |            5 |
+| Laticinios  |            6 |
+| Doces       |            7 |
+| Eletronicos |            8 |
+| Brinquedos  |            9 |
+| Bebidas     |           10 |
++-------------+--------------+
+10 rows in set (0.001 sec)
+
+MariaDB [etecmcm2]> update produtos set unidade_medida = "kg" where  fk_categoria_id_categoria = 2;
+Query OK, 2 rows affected (0.004 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [etecmcm2]> select * from produtos
+    -> ;
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+| id_prod | nome            | preco  | marca   | qtde | fk_categoria_id_categoria | unidade_medida |
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+|       1 | Detergente      |   3.50 | limpol  |   50 |                      NULL | un             |
+|       2 | Detergente      |   3.50 | limpol  |   50 |                         1 | un             |
+|       3 | sabao em po     |  13.50 | omo     |   50 |                         1 | un             |
+|       4 | Picanha         | 100.50 | Freboi  |   50 |                         2 | kg             |
+|       5 | Peito de frango | 100.50 | Seara   |   50 |                         2 | kg             |
+|       6 | Banana          |  13.50 | Agranor |   50 |                         3 | un             |
+|       7 | Maça            |  10.50 | Arcanjo |   50 |                         3 | un             |
+|       8 | Milho           |   5.50 | quero   |   50 |                         4 | un             |
+|       9 | Ervilha         |   6.50 | knorr   |   50 |                         4 | un             |
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+9 rows in set (0.001 sec)
+
+MariaDB [etecmcm2]> update produtos set unidade_medida = "kg" where  fk_categoria_id_categoria = 3;
+Query OK, 2 rows affected (0.012 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [etecmcm2]> select * from produtos
+    -> ;
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+| id_prod | nome            | preco  | marca   | qtde | fk_categoria_id_categoria | unidade_medida |
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+|       1 | Detergente      |   3.50 | limpol  |   50 |                      NULL | un             |
+|       2 | Detergente      |   3.50 | limpol  |   50 |                         1 | un             |
+|       3 | sabao em po     |  13.50 | omo     |   50 |                         1 | un             |
+|       4 | Picanha         | 100.50 | Freboi  |   50 |                         2 | kg             |
+|       5 | Peito de frango | 100.50 | Seara   |   50 |                         2 | kg             |
+|       6 | Banana          |  13.50 | Agranor |   50 |                         3 | kg             |
+|       7 | Maça            |  10.50 | Arcanjo |   50 |                         3 | kg             |
+|       8 | Milho           |   5.50 | quero   |   50 |                         4 | un             |
+|       9 | Ervilha         |   6.50 | knorr   |   50 |                         4 | un             |
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+9 rows in set (0.000 sec)
+
+MariaDB [etecmcm2]> update produtos set unidade_medida = "kg" where  fk_categoria_id_categoria = 3;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 2  Changed: 0  Warnings: 0
+
+MariaDB [etecmcm2]> select * from produtos
+    -> ;
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+| id_prod | nome            | preco  | marca   | qtde | fk_categoria_id_categoria | unidade_medida |
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+|       1 | Detergente      |   3.50 | limpol  |   50 |                      NULL | un             |
+|       2 | Detergente      |   3.50 | limpol  |   50 |                         1 | un             |
+|       3 | sabao em po     |  13.50 | omo     |   50 |                         1 | un             |
+|       4 | Picanha         | 100.50 | Freboi  |   50 |                         2 | kg             |
+|       5 | Peito de frango | 100.50 | Seara   |   50 |                         2 | kg             |
+|       6 | Banana          |  13.50 | Agranor |   50 |                         3 | kg             |
+|       7 | Maça            |  10.50 | Arcanjo |   50 |                         3 | kg             |
+|       8 | Milho           |   5.50 | quero   |   50 |                         4 | un             |
+|       9 | Ervilha         |   6.50 | knorr   |   50 |                         4 | un             |
++---------+-----------------+--------+---------+------+---------------------------+----------------+
+9 rows in set (0.000 sec)
+
+MariaDB [etecmcm2]> select * from categoria
+    -> ;
++-------------+--------------+
+| nome_cat    | id_categoria |
++-------------+--------------+
+| Limpeza     |            1 |
+| Açogue      |            2 |
+| Hortifruti  |            3 |
+| Enlatados   |            4 |
+| Higiene     |            5 |
+| Laticinios  |            6 |
+| Doces       |            7 |
+| Eletronicos |            8 |
+| Brinquedos  |            9 |
+| Bebidas     |           10 |
++-------------+--------------+
+10 rows in set (0.001 sec)
+
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, fk_categoria_id_categoria)
+    -> values (Microondas,650.00,Electrolux,50,8);
+ERROR 1054 (42S22): Unknown column 'Microondas' in 'field list'
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, fk_categoriaid_categoria)
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, id_categoria)
+    -> values (Microondas,650.00,Electrolux,50,8);
+ERROR 1054 (42S22): Unknown column 'Microondas' in 'field list'
+MariaDB [etecmcm2]> ;
+ERROR: No query specified
+
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, fk_categoria_id_categoria)
+    -> ("Microondas",650.00,"Electrolux",50,8);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '"Microondas",650.00,"Electrolux",50,8)' at line 2
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, fk_categoria_id_categoria, unidade_medida)
+    -> values ("Microondas",650.00,"Electrolux",50,8,"un");
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [etecmcm2]> select * from produtos
+    -> ;
++---------+-----------------+--------+------------+------+---------------------------+----------------+
+| id_prod | nome            | preco  | marca      | qtde | fk_categoria_id_categoria | unidade_medida |
++---------+-----------------+--------+------------+------+---------------------------+----------------+
+|       1 | Detergente      |   3.50 | limpol     |   50 |                      NULL | un             |
+|       2 | Detergente      |   3.50 | limpol     |   50 |                         1 | un             |
+|       3 | sabao em po     |  13.50 | omo        |   50 |                         1 | un             |
+|       4 | Picanha         | 100.50 | Freboi     |   50 |                         2 | kg             |
+|       5 | Peito de frango | 100.50 | Seara      |   50 |                         2 | kg             |
+|       6 | Banana          |  13.50 | Agranor    |   50 |                         3 | kg             |
+|       7 | Maça            |  10.50 | Arcanjo    |   50 |                         3 | kg             |
+|       8 | Milho           |   5.50 | quero      |   50 |                         4 | un             |
+|       9 | Ervilha         |   6.50 | knorr      |   50 |                         4 | un             |
+|      10 | Microondas      | 650.00 | Electrolux |   50 |                         8 | un             |
++---------+-----------------+--------+------------+------+---------------------------+----------------+
+10 rows in set (0.001 sec)
+
+MariaDB [etecmcm2]> delete from produtos where id_prod = 1;
+Query OK, 1 row affected (0.011 sec)
+
+MariaDB [etecmcm2]> select * from produtos
+    -> ;
++---------+-----------------+--------+------------+------+---------------------------+----------------+
+| id_prod | nome            | preco  | marca      | qtde | fk_categoria_id_categoria | unidade_medida |
++---------+-----------------+--------+------------+------+---------------------------+----------------+
+|       2 | Detergente      |   3.50 | limpol     |   50 |                         1 | un             |
+|       3 | sabao em po     |  13.50 | omo        |   50 |                         1 | un             |
+|       4 | Picanha         | 100.50 | Freboi     |   50 |                         2 | kg             |
+|       5 | Peito de frango | 100.50 | Seara      |   50 |                         2 | kg             |
+|       6 | Banana          |  13.50 | Agranor    |   50 |                         3 | kg             |
+|       7 | Maça            |  10.50 | Arcanjo    |   50 |                         3 | kg             |
+|       8 | Milho           |   5.50 | quero      |   50 |                         4 | un             |
+|       9 | Ervilha         |   6.50 | knorr      |   50 |                         4 | un             |
+|      10 | Microondas      | 650.00 | Electrolux |   50 |                         8 | un             |
++---------+-----------------+--------+------------+------+---------------------------+----------------+
+9 rows in set (0.001 sec)
+
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, fk_categoria_id_categoria, unidade_medida)
+    -> values ("Geladeira",3000.00,Brastemp,50,8),
+    -> values ("Refrigerante",11.00,Coca-Cola,50,10),
+    -> values ("Refrigerante",9.00,Sprite,50,10);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'values ("Refrigerante",11.00,Coca-Cola,50,10),
+values ("Refrigerante",9.00,Sp...' at line 3
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, fk_categoria_id_categoria, unidade_medida)
+    -> values ("Geladeira",3000.00,Brastemp,50,8);
+ERROR 1054 (42S22): Unknown column 'Brastemp' in 'field list'
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, fk_categoria_id_categoria, unidade_medida)
+    -> values ("Refrigerante",9.00,"Sprite",50,10);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, fk_categoria_id_categoria, unidade_medida)
+    -> values ("Refrigerante",9.00,"Sprite",50,10,"un");
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, fk_categoria_id_categoria, unidade_medida)
+    -> values ("Geladeira",3000.00,"Brastemp",50,8);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+MariaDB [etecmcm2]> INSERT INTO produtos (nome, preco, marca, qtde, fk_categoria_id_categoria, unidade_medida)
+    -> values ("Geladeira",3000.00,"Brastemp",50,8,"un");
+Query OK, 1 row affected (0.011 sec)
+
+MariaDB [etecmcm2]> select * from produtos
+    -> ;
++---------+-----------------+---------+------------+------+---------------------------+----------------+
+| id_prod | nome            | preco   | marca      | qtde | fk_categoria_id_categoria | unidade_medida |
++---------+-----------------+---------+------------+------+---------------------------+----------------+
+|       2 | Detergente      |    3.50 | limpol     |   50 |                         1 | un             |
+|       3 | sabao em po     |   13.50 | omo        |   50 |                         1 | un             |
+|       4 | Picanha         |  100.50 | Freboi     |   50 |                         2 | kg             |
+|       5 | Peito de frango |  100.50 | Seara      |   50 |                         2 | kg             |
+|       6 | Banana          |   13.50 | Agranor    |   50 |                         3 | kg             |
+|       7 | Maça            |   10.50 | Arcanjo    |   50 |                         3 | kg             |
+|       8 | Milho           |    5.50 | quero      |   50 |                         4 | un             |
+|       9 | Ervilha         |    6.50 | knorr      |   50 |                         4 | un             |
+|      10 | Microondas      |  650.00 | Electrolux |   50 |                         8 | un             |
+|      11 | Refrigerante    |    9.00 | Sprite     |   50 |                        10 | un             |
+|      12 | Geladeira       | 3000.00 | Brastemp   |   50 |                         8 | un             |
++---------+-----------------+---------+------------+------+---------------------------+----------------+
+11 rows in set (0.001 sec)
+
+MariaDB [etecmcm2]> select * from categoria;
++-------------+--------------+
+| nome_cat    | id_categoria |
++-------------+--------------+
+| Limpeza     |            1 |
+| Açogue      |            2 |
+| Hortifruti  |            3 |
+| Enlatados   |            4 |
+| Higiene     |            5 |
+| Laticinios  |            6 |
+| Doces       |            7 |
+| Eletronicos |            8 |
+| Brinquedos  |            9 |
+| Bebidas     |           10 |
++-------------+--------------+
+10 rows in set (0.000 sec)
+
+MariaDB [etecmcm2]> values ("Geladeira",3000.00,"Brastemp",50,8,"un");
+
