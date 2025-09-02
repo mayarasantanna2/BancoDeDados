@@ -1,0 +1,240 @@
+-- ======================
+-- Inserts na tabela Cliente
+-- ======================
+INSERT INTO cliente (idcliente, cpf, datanasc, nome) VALUES (1, '11111111111', '1990-05-12', 'João Silva');
+INSERT INTO cliente (idcliente, cpf, datanasc, nome) VALUES (2, '22222222222', '1985-09-23', 'Maria Oliveira');
+INSERT INTO cliente (idcliente, cpf, datanasc, nome) VALUES (3, '33333333333', '2000-01-15', 'Pedro Souza');
+INSERT INTO cliente (idcliente, cpf, datanasc, nome) VALUES (4, '44444444444', '1995-11-30', 'Ana Costa');
+INSERT INTO cliente (idcliente, cpf, datanasc, nome) VALUES (5, '55555555555', '1988-07-04', 'Lucas Almeida');
+
+-- ======================
+-- Inserts na tabela Modelo
+-- ======================
+INSERT INTO modelo (idmodelo, modelo) VALUES (1, 'Gol');
+INSERT INTO modelo (idmodelo, modelo) VALUES (2, 'Civic');
+INSERT INTO modelo (idmodelo, modelo) VALUES (3, 'Onix');
+INSERT INTO modelo (idmodelo, modelo) VALUES (4, 'Corolla');
+INSERT INTO modelo (idmodelo, modelo) VALUES (5, 'HB20');
+
+-- ======================
+-- Inserts na tabela Veiculo
+-- ======================
+INSERT INTO veiculo (idveiculo, placa, cor, cpf, idmodelo, idcliente) 
+VALUES (1, 'ABC1234', 'Preto', '11111111111', 1, 1);
+
+INSERT INTO veiculo (idveiculo, placa, cor, cpf, idmodelo, idcliente) 
+VALUES (2, 'DEF5678', 'Branco', '22222222222', 2, 2);
+
+INSERT INTO veiculo (idveiculo, placa, cor, cpf, idmodelo, idcliente) 
+VALUES (3, 'GHI9012', 'Prata', '33333333333', 3, 3);
+
+INSERT INTO veiculo (idveiculo, placa, cor, cpf, idmodelo, idcliente) 
+VALUES (4, 'JKL3456', 'Vermelho', '44444444444', 4, 4);
+
+INSERT INTO veiculo (idveiculo, placa, cor, cpf, idmodelo, idcliente) 
+VALUES (5, 'MNO7890', 'Azul', '55555555555', 5, 5);
+
+-- ======================
+-- Inserts na tabela Andar
+-- ======================
+INSERT INTO andar (idandar, capacidade, andar) VALUES (1, 50, 'Térreo');
+INSERT INTO andar (idandar, capacidade, andar) VALUES (2, 40, '1º Andar');
+INSERT INTO andar (idandar, capacidade, andar) VALUES (3, 30, '2º Andar');
+INSERT INTO andar (idandar, capacidade, andar) VALUES (4, 20, '3º Andar');
+INSERT INTO andar (idandar, capacidade, andar) VALUES (5, 10, 'Subsolo');
+
+-- ======================
+-- Inserts na tabela Estaciona
+-- ======================
+INSERT INTO estaciona (idestaciona, horasaida, horaentrada, datasaida, dataentrada, idveiculo, idandar) 
+VALUES (1, '2025-09-02 08:00:00', '2025-09-02 07:00:00', '2025-09-02', '2025-09-02', 1, 1);
+
+INSERT INTO estaciona (idestaciona, horasaida, horaentrada, datasaida, dataentrada, idveiculo, idandar) 
+VALUES (2, '2025-09-02 09:30:00', '2025-09-02 08:15:00', '2025-09-02', '2025-09-02', 2, 2);
+
+INSERT INTO estaciona (idestaciona, horasaida, horaentrada, datasaida, dataentrada, idveiculo, idandar) 
+VALUES (3, '2025-09-02 10:00:00', '2025-09-02 09:00:00', '2025-09-02', '2025-09-02', 3, 3);
+
+INSERT INTO estaciona (idestaciona, horasaida, horaentrada, datasaida, dataentrada, idveiculo, idandar) 
+VALUES (4, '2025-09-02 11:00:00', '2025-09-02 09:45:00', '2025-09-02', '2025-09-02', 4, 4);
+
+INSERT INTO estaciona (idestaciona, horasaida, horaentrada, datasaida, dataentrada, idveiculo, idandar) 
+VALUES (5, '2025-09-02 12:30:00', '2025-09-02 11:15:00', '2025-09-02', '2025-09-02', 5, 5);
+
+
+UPDATE veiculo  SET cor = 'Azul turquesa' WHERE idveiculo = 1;
+
+UPDATE modelo SET modelo = 'Onix' WHERE idmodelo = 1;
+
+
+
+
+CREATE TABLE andar (
+    idandar int AUTO_INCREMENT PRIMARY KEY,
+    capacidade int,
+    andar varchar(20));
+    
+
+CREATE TABLE modelo (
+    idmodelo int AUTO_INCREMENT PRIMARY KEY,
+    modelo varchar(30));
+    
+
+CREATE TABLE cliente(
+    idcliente int AUTO_INCREMENT PRIMARY KEY,
+    cpf varchar(20),
+    datanasc datetime,
+    nome varchar(100));
+
+CREATE TABLE veiculo(
+    idveiculo int AUTO_INCREMENT PRIMARY KEY,
+  	placa varchar(10),
+    cor varchar(20),
+    cpf varchar(20),
+    idmodelo int,
+    idcliente int,
+    FOREIGN KEY (idmodelo) REFERENCES modelo(idmodelo),
+    FOREIGN KEY (idcliente) REFERENCES cliente(idcliente));
+
+CREATE TABLE estaciona(
+    idestaciona int AUTO_INCREMENT PRIMARY KEY,
+  	horasaida datetime,
+    horaentrada datetime,
+    datasaida datetime,
+    dataentrada datetime,
+    idveiculo int,
+    idandar int,
+    FOREIGN KEY (idveiculo) REFERENCES veiculo(idveiculo),
+    FOREIGN KEY (idandar) REFERENCES andar(idandar));
+
+
+
+
+
+----------------------------------------
+
+ATIVIDADE JUNÇÃO DE TABELAS
+1)	Implemente as consultas abaixo considerando o modelo conceitual abaixo e utilizando para realizar a junção os comandos que achar necessário de acordo com última aula.
+ 
+Faça os insert’s necessários para responder as Junções Abaixo:
+1)	Salve os scripts DDL que resolvem a situação acima e cole aqui.
+
+CREATE TABLE andar (
+    idandar int AUTO_INCREMENT PRIMARY KEY,
+    capacidade int,
+    andar varchar(20));
+    
+
+CREATE TABLE modelo (
+    idmodelo int AUTO_INCREMENT PRIMARY KEY,
+    modelo varchar(30));
+    
+
+CREATE TABLE cliente(
+    idcliente int AUTO_INCREMENT PRIMARY KEY,
+    cpf varchar(20),
+    datanasc datetime,
+    nome varchar(100));
+
+CREATE TABLE veiculo(
+    idveiculo int AUTO_INCREMENT PRIMARY KEY,
+  	placa varchar(10),
+    cor varchar(20),
+    cpf varchar(20),
+    idmodelo int,
+    idcliente int,
+    FOREIGN KEY (idmodelo) REFERENCES modelo(idmodelo),
+    FOREIGN KEY (idcliente) REFERENCES cliente(idcliente));
+
+CREATE TABLE estaciona(
+    idestaciona int AUTO_INCREMENT PRIMARY KEY,
+  	horasaida datetime,
+    horaentrada datetime,
+    datasaida datetime,
+    dataentrada datetime,
+    idveiculo int,
+    idandar int,
+    FOREIGN KEY (idveiculo) REFERENCES veiculo(idveiculo),
+    FOREIGN KEY (idandar) REFERENCES andar(idandar));
+
+2)	Salve os comando DML de preenchimento e cole aqui:
+a)	Cole todos os inserts
+
+INSERT INTO cliente (idcliente, cpf, datanasc, nome) VALUES (1, '11111111111', '1990-05-12', 'João Silva');
+INSERT INTO cliente (idcliente, cpf, datanasc, nome) VALUES (2, '22222222222', '1985-09-23', 'Maria Oliveira');
+INSERT INTO cliente (idcliente, cpf, datanasc, nome) VALUES (3, '33333333333', '2000-01-15', 'Pedro Souza');
+INSERT INTO cliente (idcliente, cpf, datanasc, nome) VALUES (4, '44444444444', '1995-11-30', 'Ana Costa');
+INSERT INTO cliente (idcliente, cpf, datanasc, nome) VALUES (5, '55555555555', '1988-07-04', 'Lucas Almeida');
+
+
+INSERT INTO modelo (idmodelo, modelo) VALUES (1, 'Gol');
+INSERT INTO modelo (idmodelo, modelo) VALUES (2, 'Civic');
+INSERT INTO modelo (idmodelo, modelo) VALUES (3, 'Onix');
+INSERT INTO modelo (idmodelo, modelo) VALUES (4, 'Corolla');
+INSERT INTO modelo (idmodelo, modelo) VALUES (5, 'HB20');
+
+
+INSERT INTO veiculo (idveiculo, placa, cor, cpf, idmodelo, idcliente) 
+VALUES (1, 'ABC1234', 'Preto', '11111111111', 1, 1);
+
+INSERT INTO veiculo (idveiculo, placa, cor, cpf, idmodelo, idcliente) 
+VALUES (2, 'DEF5678', 'Branco', '22222222222', 2, 2);
+
+INSERT INTO veiculo (idveiculo, placa, cor, cpf, idmodelo, idcliente) 
+VALUES (3, 'GHI9012', 'Prata', '33333333333', 3, 3);
+
+INSERT INTO veiculo (idveiculo, placa, cor, cpf, idmodelo, idcliente) 
+VALUES (4, 'JKL3456', 'Vermelho', '44444444444', 4, 4);
+
+INSERT INTO veiculo (idveiculo, placa, cor, cpf, idmodelo, idcliente) 
+VALUES (5, 'MNO7890', 'Azul', '55555555555', 5, 5);
+
+
+INSERT INTO andar (idandar, capacidade, andar) VALUES (1, 50, 'Térreo');
+INSERT INTO andar (idandar, capacidade, andar) VALUES (2, 40, '1º Andar');
+INSERT INTO andar (idandar, capacidade, andar) VALUES (3, 30, '2º Andar');
+INSERT INTO andar (idandar, capacidade, andar) VALUES (4, 20, '3º Andar');
+INSERT INTO andar (idandar, capacidade, andar) VALUES (5, 10, 'Subsolo');
+
+
+INSERT INTO estaciona (idestaciona, horasaida, horaentrada, datasaida, dataentrada, idveiculo, idandar) 
+VALUES (1, '2025-09-02 08:00:00', '2025-09-02 07:00:00', '2025-09-02', '2025-09-02', 1, 1);
+
+INSERT INTO estaciona (idestaciona, horasaida, horaentrada, datasaida, dataentrada, idveiculo, idandar) 
+VALUES (2, '2025-09-02 09:30:00', '2025-09-02 08:15:00', '2025-09-02', '2025-09-02', 2, 2);
+
+INSERT INTO estaciona (idestaciona, horasaida, horaentrada, datasaida, dataentrada, idveiculo, idandar) 
+VALUES (3, '2025-09-02 10:00:00', '2025-09-02 09:00:00', '2025-09-02', '2025-09-02', 3, 3);
+
+INSERT INTO estaciona (idestaciona, horasaida, horaentrada, datasaida, dataentrada, idveiculo, idandar) 
+VALUES (4, '2025-09-02 11:00:00', '2025-09-02 09:45:00', '2025-09-02', '2025-09-02', 4, 4);
+
+INSERT INTO estaciona (idestaciona, horasaida, horaentrada, datasaida, dataentrada, idveiculo, idandar) 
+VALUES (5, '2025-09-02 12:30:00', '2025-09-02 11:15:00', '2025-09-02', '2025-09-02', 5, 5);
+
+
+
+b)	Cole pelo menos dois  updates (alterando cor de carro e um modelo de um carro cadastrado errado)
+
+UPDATE veiculo  SET cor = 'Azul turquesa' WHERE idveiculo = 1;
+UPDATE modelo SET modelo = 'Onix' WHERE idmodelo = 1;
+
+c)	Cole pelo menos 1 delete extraindo um registro de um cliente que já tenha estacionado no local. Fique atento ao que deve acontecer quando vai tentar deletar e esse cliente já possui um carro cadastrado, e já estacionpu pelo menos uma vez. Explique o que houve quando foi fazer o delete e como resolveu para deletar;
+DELETE FROM `cliente` WHERE idcliente = 5;
+#1451 - Cannot delete or update a parent row: a foreign key constraint fails (`estacionamento`.`veiculo`, CONSTRAINT `veiculo_ibfk_2` FOREIGN KEY (`idcliente`) REFERENCES `cliente` (`idcliente`))
+
+
+a)	Exiba a placa e o nome dos donos de todos os veículos. 
+b)	Exiba o CPF e o nome do cliente que possui o veículo de placa “JJJ-2020” (Ou a que vocês cadastraram).
+c)	 Exiba a placa e a cor do veículo dos carros que estacionaram no dia XX/XX/XXX. 
+d)	Exiba a placa e o ano do veículo que possui o código de estacionamento 1. 
+e)	Exiba a placa, o ano do veículo e a descrição de seu modelo, se ele possuir ano a partir de 2000. 
+f)	Exiba o endereço, a data de entrada e de saída dos estacionamentos do veículo de placa “JEG-1010”. 
+g)	Exiba a quantidade de vezes que os veículos de cor verde estacionaram. 
+h)	Liste todos os clientes que possuem carro de modelo 1. 
+i)	Liste as placas, os horários de entrada e saída dos veículos de cor verde. 
+j)	Liste todos os estacionamentos do veículo de placa “JJJ-2020”. 
+k)	Exiba o nome do cliente que possui o veículo cujo código do estacionamento é 2.
+l)	Exiba o CPF do cliente que possui o veículo cujo código do estacionamento é 3. 
+m)	Exiba a descrição do modelo do veículo cujo código do estacionamento é 2. 
+n)	Exiba a placa, o nome dos donos e a descrição 
